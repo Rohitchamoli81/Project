@@ -1,0 +1,24 @@
+/* App.css - UPDATED */
+
+/* Remove the * selector completely or make it more specific */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;  /* Only box-sizing, NO margin/padding reset */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(242, 237, 228);
+  height: 100vh;
+}
+
+#root {
+  background-color: rgb(242, 237, 228);
+  min-height: 100vh;
+}

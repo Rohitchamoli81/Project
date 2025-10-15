@@ -1,0 +1,74 @@
+import React, { use, useEffect } from 'react'
+import {Slide,MealCard,CategoryCard} from '../index'
+import { useSelector } from 'react-redux'
+import { useParams,useNavigate } from 'react-router-dom'
+import { determineMealCategrory } from '../mealData/MealCategory'
+
+function MealCategory() {
+const {meals} = useSelector(state=>state.meals)
+const navigate = useNavigate();
+const {category} = useParams();
+const filteredMeals = meals.filter(meal => meal.category === String(category).trim());
+const nonFilterMeals = meals.filter(meal => meal.category !== String(category).trim());
+
+useEffect(() => {
+    window.scrollTo({ top: 360, behavior: 'smooth' }); 
+  }, [category]);
+
+  return (
+    <div>
+        <div className='relative mt-16'>
+        <img className='w-full h-90' src="/thumbnail/banner.png" alt="" />
+        <div className='absolute inset-0 flex flex-col items-center justify-center'>
+            <p className='text-sm uppercase tracking-wider mb-2 font-semibold'>DELICIOUS RECIPES AWAIT</p>
+            <h1 className='text-black text-5xl font-semibold'>{category}</h1>
+            <p className='text-center text-gray-700 mt-4 max-w-3xl px-4 font-semibold'>
+                Discover an array of delicious recipes for every occasion. From quick snacks to gourmet meals, explore endless inspiration, expert tips, and creative ideas for your kitchen adventures!
+            </p>
+        </div>
+        </div>
+        <div className='mt-8'>
+        </div>
+        <div className='grid sm:grid-cols-12 gap-2'>
+            <div className='my-16 flex flex-wrap ml-30 sm:col-span-9 gap-4'>
+                {
+                    filteredMeals.length > 0 ? (
+                    filteredMeals.map((meal) => (
+                        <MealCard width='w-70' key={meal.id} meal={meal} onClick={()=>navigate(`/detail/${meal.id}`)} />
+                    ))
+                    ) :  (
+                        <p className='text-gray-600'>No meals found for this category.</p>
+                    )
+                    
+                }
+            </div>
+            <div className='sm:col-span-3 mt-16 hidden sm:block'>
+                <div className='text-left font-bold text-2xl'>Recipe</div>
+                <div>
+                    {
+                        Object.entries(determineMealCategrory(nonFilterMeals)).map(([cat, meals]) => (
+                            <CategoryCard key={cat}  meal={meals[0]} onClick={()=>(`/detail/${meals[0].id}`)} />
+                        ))
+                    }
+                </div>
+                <div className='mt-10 mb-5  '>
+                    <img className=' rounded-2xl h-auto w-80 py-7' src="/images/Heath.png" alt="" />
+                </div>
+                <div>
+                    <div className='font-bold text-2xl'>CATEGORIES</div>
+                    <div>
+                        {
+                            Object.keys(determineMealCategrory(nonFilterMeals)).map((cat) => (
+                                <div key={cat} className='py-2 hover:text-orange-400 cursor-pointer 
+                                font-semibold text-gray-600'><p onClick={()=>navigate(`/meal/${cat}`)} >{cat}</p></div>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+)
+}
+
+export default MealCategory
