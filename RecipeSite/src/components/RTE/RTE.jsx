@@ -1,4 +1,4 @@
-import { Editor  } from 'tinymce';
+import { Editor  } from '@tinymce/tinymce-react';
 import { Controller } from 'react-hook-form';
 
 
@@ -17,10 +17,10 @@ return (
         name={name}
         control={control}
         defaultValue={defaultValue}
-        render={({field:{onChange}})=>(
+        render={({field:{onChange,value}})=>(
             <Editor
             apiKey="qxdjc8m7ba5z6734mdng7ujrvzp9ll0oxvf591kcdb1o563d"
-            initialValue={defaultValue}
+            value={value}
             init={{
                 height: 500,
                 menubar: false,
@@ -30,7 +30,6 @@ return (
                 "autolink",
                 "lists",
                 "link",
-                "image",
                 "charmap",
                 "preview",
                 "anchor",
@@ -41,10 +40,8 @@ return (
                 "insertdatetime",
                 "media",
                 "table",
-                "code",
                 "help",
                 "wordcount",
-                "anchor",
             ],
             toolbar:
                 "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",

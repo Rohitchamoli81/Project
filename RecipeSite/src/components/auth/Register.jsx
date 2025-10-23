@@ -1,7 +1,7 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate ,Link } from 'react-router-dom'
 import { Input,CardBtn as Button } from '../index'
-import { set, useForm } from 'react-hook-form'
+import {  useForm } from 'react-hook-form'
 import { authService } from '@/appwrite/auth'
 
 function Register() {

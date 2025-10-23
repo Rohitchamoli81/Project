@@ -1,10 +1,13 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
-
+import { useSelector } from 'react-redux';
+import Logout from '../auth/Logout';
 
 function Nav() {
 const navigate = useNavigate();
+const user = useSelector((state) => state.auth.status);
+
 return (
     <div className="navbar  shadow-sm bg-stone-400 fixed top-0 z-50 ">
         <div className="navbar-start">
@@ -19,6 +22,20 @@ return (
                     <li><a>About</a></li>
                     <li><a>Contact</a></li>
                     <li><a>Blog</a></li>
+                    <li><a>My Blog</a></li>
+                    <li onClick={()=>navigate('/allBlog')}><a>All Blog</a></li>
+                    {
+                        !user ? (
+                            <li onClick={()=>navigate('/signup')}><a>Register</a></li>
+                        ):(
+                            <li><Logout/></li>
+                        )
+                    }
+                    {
+                        !user ? (
+                            <li onClick={()=>navigate('/login')}><a>Login</a></li>
+                        ):""
+                    }
                 </ul>
             </div>
         </div>
@@ -33,7 +50,8 @@ return (
                     <span className="badge badge-xs badge-primary indicator-item"></span>
                 </div>
             </button>
-            <button className='font-semibold ml-4 btn btn-outline rounded-sm hover:bg-red-500 hover:text-black text-white border-1'>
+            <button className='font-semibold ml-4 btn btn-outline rounded-sm
+            hover:bg-red-500 hover:text-black text-white border-1' onClick={()=>navigate('/add-blog')}>
                 Add Recipe
             </button>
         </div>

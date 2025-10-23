@@ -32,9 +32,9 @@ export class FileService{
         }
     }
 
-    async getFilePerview(fileId){
+    async getFilePreview(fileId){
         try {
-            const response= await this.storage.getFilePreview(conf.appwritebucketId,fileId,{width:250,height:250})
+            const response= this.storage.getFilePreview(conf.appwritebucketId, fileId)
             return response
         } catch (error) {
             console.log('File::GetPreview::Error',error);

@@ -10,13 +10,15 @@ const postSlice = createSlice({
     name: 'posts',
     initialState,
     reducers:{
-        fetchPosts:(state,action)=>{
+        addPost:(state,action)=>{
             const postData={
                 id: action.payload.id,
                 title: action.payload.title,
                 content: action.payload.content,
                 status : action.payload.status,
+                userId: action.payload.userId,
                 featuredImage: action.payload.featuredImage,
+                area: action.payload.area,
             }
             state.posts.push(postData);
         },
@@ -29,17 +31,18 @@ const postSlice = createSlice({
                 existingPost.content = content;
                 existingPost.status = action.payload.status;
                 existingPost.featuredImage = action.payload.featuredImage;
+                existingPost.area = action.payload.area;
             }
         },
 
-        setLocalLoading:(state,action)=>{
+        setPostLoading:(state,action)=>{
             state.loading = action.payload;
         }
-        ,setLocalError:(state,action)=>{
+        ,setPostError:(state,action)=>{
             state.error = action.payload;
         }
     }
 });
 
-export const {fetchPosts, updatePost, setLocalError,setLocalLoading} = postSlice.actions;
+export const {addPost, updatePost, setPostError,setPostLoading} = postSlice.actions;
 export default postSlice.reducer;

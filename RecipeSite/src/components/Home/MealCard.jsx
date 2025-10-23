@@ -9,14 +9,15 @@ height = 'h-auto',
 }) {
     const [liked, setLiked] = useState(false)   
     const [bookmarked, setBookmarked] = useState(false)
+    
 
     return (
         <div className={`card bg-[rgb(242, 237, 228)] ${width} border-0 cursor-pointer`} {...props}> 
             <figure className="relative">
                 <img className='w-full rounded-sm h-auto'
-                    src={meal.thumbnail}
+                    src={meal.thumbnail||meal.featuredImage}
                     loading='lazy'
-                    alt={meal.name} />
+                    alt={meal.name||meal.title} />
                 
                 <div className="absolute top-3 right-3 flex flex-col gap-3">
                     <button 
@@ -42,9 +43,9 @@ height = 'h-auto',
             </figure>
             <div className="card-body" >
                 <h2 className="card-title text-red-500 font-bold">
-                    {meal.category}
+                    {meal.category?meal.category: 'Recipe'}
                 </h2>
-                <p className='font-semibold text-3xl'>{meal.name}</p>
+                <p className='font-semibold text-3xl'>{meal.name||meal.title}</p>
                 <div className="card-actions justify-end">
                     <div className="badge badge-outline font-semibold">{meal.area}</div>
                 </div>

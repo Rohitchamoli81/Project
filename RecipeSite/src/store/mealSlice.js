@@ -1,9 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { set } from 'react-hook-form';
 
 const initialState = {
     meals: [],
     loading: true,
     error: null,
+    remainingloading :true
 };
 
 const mealSlice = createSlice({
@@ -18,7 +20,6 @@ const mealSlice = createSlice({
                 area: action.payload.area,
                 instructions: action.payload.instructions,
                 thumbnail: action.payload.thumbnail,
-                tags: action.payload.tags,
                 youtube: action.payload.youtube,
                 ingredients: action.payload.ingredients,
                 measures: action.payload.measures,
@@ -32,8 +33,11 @@ const mealSlice = createSlice({
         }
         ,setLocalError:(state,action)=>{
             state.error = action.payload;
+        },
+        setRemainingLoading:(state,action)=>{
+            state.remainingloading = action.payload;
         }
     }
 });
-export const {fetchMeals,setLocalError,setLocalLoading} = mealSlice.actions;
+export const {fetchMeals,setLocalError,setLocalLoading ,setRemainingLoading} = mealSlice.actions;
 export default mealSlice.reducer;

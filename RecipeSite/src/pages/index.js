@@ -5,5 +5,11 @@ import MyBlog from './MyBlog'
 import Home from './HomePage'
 import  AllRecipe  from './AllRecipe'
 import Meal from './Meal'
+import Login from './Login'
+import Signup from './Signup'
+import AddBlog from './AddBlog'
+import DeletePost from './DeletePost'
+import EditPost from './EditPost'
+import Container from '../components/container/Container'
 
-export {Detail, DetailRecipe, AllBlog, MyBlog, Home,AllRecipe,Meal} 
+export {Detail, DetailRecipe,  MyBlog, Home,AllRecipe,Meal ,Login,Signup, AddBlog, DeletePost, EditPost, Container,AllBlog} 

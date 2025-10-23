@@ -1,22 +1,27 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState ,useEffect, use } from 'react'
 import { Nav ,Footer} from './components/index'
 import './App.css'
 import { Outlet } from 'react-router-dom'
 import { setUser ,removeUser,setLoading } from './store/authSlice'
 import { authService } from './appwrite/auth'
-import { postService } from './appwrite/post'
 import {Api} from './components/mealData/Api'
 import { useDispatch,useSelector} from 'react-redux'
-import { fetchMeals ,setLocalLoading} from './store/mealSlice'
+import { fetchMeals ,setLocalLoading ,setRemainingLoading} from './store/mealSlice'
+import { postService } from './appwrite/post'
+import {addPost,setPostError,setPostLoading} from './store/postSlice'
 
 
 function App() {
   const dispatch = useDispatch()
+  const meals = useSelector(state=>state.meals.meals)
   const loading = useSelector(state=>state.meals.loading)
+  const remainingloading = useSelector(state=>state.meals.remainingloading)
   const authloading = useSelector(state=>state.auth.loading)
+  const PostLoading = useSelector(state=>state.posts.loading)
 
   useEffect(()=>{
-    const loadMeals  = async()=>{
+    if(loading&&remainingloading){
+      const loadMeals  = async()=>{
       try {
         const pagePromise = Array.from({length:10},(_,i)=>Api(i+1))
         const pagesResults = await Promise.all(pagePromise)
@@ -44,7 +49,6 @@ function App() {
               area: meal.strArea,
               instructions: meal.strInstructions,
               thumbnail: meal.strMealThumb,
-              tags: meal.strTags,
               youtube: meal.strYoutube,
               ingredients: ingredientList,
               measures: measureList,
@@ -61,7 +65,83 @@ function App() {
       }
     }
     loadMeals()
+    }
   },[dispatch])
+
+  useEffect(()=>{
+    if(!loading&&remainingloading){
+      setTimeout(()=>{
+      const loadmeal = async()=>{
+      try {
+          const pagePromise = Array.from({length:20},(_,i)=>Api(i+11))
+          const pagesResults = await Promise.all(pagePromise)
+          const allMeals = pagesResults.flat()
+          
+          allMeals.forEach(meal=>{
+            if(meal){
+              const ingredientList = []
+              const measureList = []
+              for(let i=1;i<=20;i++){
+                const ingredient = meal[`strIngredient${i}`]
+                const measure = meal[`strMeasure${i}`]
+                if(ingredient && ingredient.trim() !==''){
+                  ingredientList.push(ingredient)
+                }
+                if(measure && measure.trim() !==''){
+                  measureList.push(measure)
+                }
+              }
+  
+              dispatch(fetchMeals({
+                id: meal.idMeal,
+                name: meal.strMeal,
+                category: meal.strCategory,
+                area: meal.strArea,
+                instructions: meal.strInstructions,
+                thumbnail: meal.strMealThumb,
+                youtube: meal.strYoutube,
+                ingredients: ingredientList,
+                measures: measureList,
+                tag: meal.strTags ? meal.strTags.split(',') : []
+              }) )
+            }
+          })
+          dispatch(setRemainingLoading(false))
+      } catch (error) {
+        console.log("Error in loading remaining meals",error);
+        throw error;
+      }
+    }
+    loadmeal()
+    },3000)
+    }
+  },[dispatch,loading])
+
+
+useEffect(() => {
+    postService.getPosts()
+        .then((posts) => {
+            posts.documents.forEach(post => {
+                dispatch(addPost({
+                    id: post.$id,
+                    title: post.title,
+                    content: post.content,
+                    area: post.area,
+                    status: post.status,
+                    userId: post.userId,
+                    featuredImage: post.featuredImage,
+                }))
+            })
+        })
+        .catch((error) => {
+            console.log("Post fetch error", error);
+        })
+        .finally(() => {
+            dispatch(setPostLoading(false))
+        })
+}, [dispatch])
+
+
 
   useEffect(()=>{
     authService.getCurrentUser()
@@ -81,9 +161,10 @@ function App() {
     })
   },[dispatch])
 
+  
   return (
     <>
-    {loading ||authloading ? <span className="loading loading-spinner loading-xl flex justify-center items-center "></span> :
+    {loading&&authloading&&PostLoading ? <span className="loading loading-spinner loading-xl flex justify-center items-center "></span> :
     <div className="App">
       <Nav/>
       <Outlet/>

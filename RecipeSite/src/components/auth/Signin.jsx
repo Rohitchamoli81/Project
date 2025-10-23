@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate ,Link } from 'react-router-dom'
 import { Input,CardBtn as Button } from '../index'
 import {  useForm } from 'react-hook-form'
 import { authService } from '@/appwrite/auth'
@@ -14,7 +14,7 @@ function Signin() {
     const [error ,setError] = useState("")
     const dispatch = useDispatch();
 
-    const onSubmit = async (data) => {
+    const login = async (data) => {
         try {
             const response = await authService.login(data)
             console.log('Login successful:', response)
@@ -28,8 +28,8 @@ function Signin() {
     }
 
 return (
-    <div className='flex items-center justify-center w-full'>
-        <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl
+    <div className='flex items-center justify-center w-full mt-16 mb-16 '>
+        <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl mt-10
             p-10 border border-black/10`}>
             <div className='mb-2 flex justify-center'>
                 <span className='inline-block w-full max-w-[100px]'>

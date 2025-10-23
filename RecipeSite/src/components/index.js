@@ -16,6 +16,7 @@ import Input from './fields/Input'
 import Select from './fields/Select'
 import Register from './auth/Register'
 import Signin from './auth/Signin'
+import Postform from './post/Postform'
 
 
 export {
@@ -36,5 +37,6 @@ export {
     Input,
     Select,
     Register,
-    Signin
+    Signin,
+    Postform,
 }

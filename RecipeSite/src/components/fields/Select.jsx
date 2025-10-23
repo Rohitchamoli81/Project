@@ -19,7 +19,7 @@ return (
     border-gray-200 w-full  ${className}`}
     ref={ref}>
         {options?.map((option)=>
-        <option key={option} value={option}>{option}</option>
+        <option key={option.value} value={option.value}>{option.label}</option>
         )}
     </select>
 </div>

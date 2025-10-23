@@ -11,12 +11,15 @@ export class PostService{
         this.databases=new Databases(this.client)
     }
 
-    async createPost({title,content,imageId}){
+    async createPost({title,content,featuredImage,status,userId,area}){
         try {
             const response= await this.databases.createDocument(conf.appwritedatabaseId,conf.appwitecollectionId,ID.unique(),{
                 title,
                 content,
-                imageId
+                featuredImage,
+                status,
+                userId,
+                area
             })
             return response
         } catch (error) {
@@ -29,7 +32,7 @@ export class PostService{
         try {
             const response= await this.databases.listDocuments(conf.appwritedatabaseId,conf.appwitecollectionId,[
                 Query.orderDesc('$createdAt'),
-                Query.equal('status','active')
+                Query.equal('status','published')
             ])
             return response
         } catch (error) {

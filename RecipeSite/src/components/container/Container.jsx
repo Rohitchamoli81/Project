@@ -1,10 +1,11 @@
 import React from 'react'
 
 function Container({
-    children
+    children,
+    ...props
 }) {
 return (
-<div>
+<div {...props}>
     {children}
 </div>
 )

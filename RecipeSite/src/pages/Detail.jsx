@@ -47,7 +47,7 @@ function Detail() {
             <ul className='list-disc gap-y-3   list-inside mt-3 space-y-1 grid grid-cols-2 font-semibold text-gray-800'>
               {
                 recipe && recipe.ingredients && recipe.measures ? recipe.ingredients.map((ingredient, index) => (
-                  <li key={index}>
+                  <li key={ingredient}>
                     {ingredient} - {recipe.measures[index]}
                   </li>
                 )) : <p>No ingredients found.</p>
