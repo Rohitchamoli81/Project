@@ -18,12 +18,14 @@ return (
                 <ul
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-stone-400 text-black rounded-box z-1  w-52 p-2 shadow mt-5">
-                    <li><a>Homepage</a></li>
+                    {
+                        user ? (
+                            <li onClick={()=>navigate('/myBlog')}><a>My Blog</a></li>
+                        ) : ""
+                    }
+                    <li onClick={()=>navigate('/allBlog')}><a>All Blog</a></li>
                     <li><a>About</a></li>
                     <li><a>Contact</a></li>
-                    <li><a>Blog</a></li>
-                    <li><a>My Blog</a></li>
-                    <li onClick={()=>navigate('/allBlog')}><a>All Blog</a></li>
                     {
                         !user ? (
                             <li onClick={()=>navigate('/signup')}><a>Register</a></li>
@@ -52,7 +54,7 @@ return (
             </button>
             <button className='font-semibold ml-4 btn btn-outline rounded-sm
             hover:bg-red-500 hover:text-black text-white border-1' onClick={()=>navigate('/add-blog')}>
-                Add Recipe
+                Add Blog
             </button>
         </div>
     </div>

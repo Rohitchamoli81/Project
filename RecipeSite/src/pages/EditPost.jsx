@@ -6,7 +6,7 @@ import { postService } from '@/appwrite/post'
 
 function EditPost() {
     const navigate = useNavigate()
-    const [post,setPost] = useState([])
+    const [post,setPost] = useState(null)
     const {id} = useParams()
     const {posts} = useSelector((state) => state.posts)
     useEffect(() => {
@@ -30,9 +30,11 @@ function EditPost() {
     }, [id, navigate])
 
 return (
+    post ?
     <div>
         <Postform post={post}/>
     </div>
+    : <div>Loading...</div>
 )
 }
 

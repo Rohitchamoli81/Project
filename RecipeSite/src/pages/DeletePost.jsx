@@ -14,8 +14,13 @@ const [imageUrl, setImageUrl] = useState('/images/default.png')
 const userId = useSelector((state) => state.auth.user?.$id)
 const isAuthor = useSelector((state) => {
     const post = state.posts.posts.find((p) => p.id === id)
-    return post?.authorId === userId
+    return post?.userId === userId
 })
+console.log(userId);
+console.log("isAuthor",isAuthor);
+
+
+
 
 const {posts} = useSelector((state) => state.posts)
 const [post,setPost] = useState(null)
@@ -49,10 +54,12 @@ const handleDelete = async () => {
                     fileService.deleteFile(post.featuredImage)
                 }
             })
+            navigate('/allBlog')
         }
     } catch (error) {
         console.log('DeletePost::Delete::Error',error);
         throw error
+        navigate('/')
     }
 }
 
@@ -69,8 +76,8 @@ useEffect(() => {
 
 
 return post ? (
-        <div className="py-8">
-                <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+        <div className="py-8 mt-16 px-4 md:px-8 lg:px-16">
+                <div className=" flex justify-center mb-4 relative border rounded-xl p-2 w-full h-64 md:h-[600px] overflow-hidden">
                     <img
                         src={imageUrl}
                         alt={post.title}
@@ -78,24 +85,26 @@ return post ? (
                     />
 
                     {isAuthor && (
-                        <div className="absolute right-6 top-6">
+                        <div className="absolute right-6 top-6 flex flex-col gap-4">
                             <Link to={`/edit-post/${id}`}>
-                                <CardBtn bgColor="bg-green-500" className="mr-3">
+                                <CardBtn  className=" w-full p-4 rounded-sm  bg-green-500">
                                     Edit
                                 </CardBtn>
                             </Link>
-                            <CardBtn bgColor="bg-red-500 " onClick={handleDelete}>
+                            <CardBtn  className="bg-red-500 p-4 rounded-sm" onClick={handleDelete}>
                                 Delete
                             </CardBtn>
                         </div>
                     )}
                 </div>
-                <div className="w-full mb-6">
-                    <h1 className="text-2xl font-bold">{post.title}</h1>
-                </div>
-                <div className="browser-css">
-                    {parse(post.content)}
+                <div className='text-center px-4 md:px-8 '>
+                    <div className="w-full mb-6 ">
+                        <h1 className="text-2xl font-bold">{post.title}</h1>
                     </div>
+                    <div className="browser-css ">
+                        {parse(post.content)}
+                    </div>
+                </div>
         </div>
     ) : null;
 }

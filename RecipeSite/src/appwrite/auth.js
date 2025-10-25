@@ -27,6 +27,18 @@ export class AuthService{
     }
     }
 
+    googleLogin(){
+        try {
+            const promise = this.account.createOAuth2Session('google',
+            conf.googleSuccessRedirect,
+            conf.googleFailureRedirect)
+            return promise
+        } catch (error) {
+            console.log('Auth::GoogleLogin::Error',error);
+            throw error
+        }
+    }
+
     async login({email,password}){
 
         try {

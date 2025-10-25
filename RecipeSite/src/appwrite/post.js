@@ -60,12 +60,15 @@ export class PostService{
         }
     }
 
-    async updatePost({postId,title,content,imageId}){
+    async updatePost(postId,{title,content,featuredImage,status,area,userId}){
         try {
             const response= await this.databases.updateDocument(conf.appwritedatabaseId,conf.appwitecollectionId,postId,{
                 title,
                 content,
-                imageId
+                featuredImage,
+                status,
+                area,
+                userId
             })
             return response
         } catch (error) {

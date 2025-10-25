@@ -77,6 +77,14 @@ return (
                         p-3 rounded-lg hover:bg-black/80 transition'>
                             Sign In
                         </Button>
+                        <Button
+                            type='button'
+                            onClick={() => authService.googleLogin()}
+                            className='w-full bg-red-500 text-white
+                            p-3 rounded-lg hover:bg-red-600 transition mt-4'
+                        >
+                            Sign In with Google
+                        </Button>
                     </div>
                 </div>
             </form>

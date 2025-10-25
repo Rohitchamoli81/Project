@@ -2,11 +2,11 @@ import React,{use, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-function AuthLayout({children,authenticated}) {
+function AuthLayout({children,authenticated=true}) {
 
 const navigate = useNavigate()
-const {status} = useSelector(state => state.auth)
-const {loading} = useSelector(state => state.loading)
+const status = useSelector(state => state.auth.status)
+const loading = useSelector(state => state.auth.loading)
 
 useEffect(()=>{
     if(authenticated && authenticated !==status){

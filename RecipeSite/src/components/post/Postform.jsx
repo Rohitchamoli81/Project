@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState ,useEffect} from 'react'
 import {Input,Select,RTE,CardBtn} from '../index'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +24,17 @@ function Postform({post}) {
     });
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [imageUrl, setImageUrl] = useState(null)
+
+    useEffect(() => {
+        if (post?.featuredImage) {
+            fileService.getFilePreview(post.featuredImage)
+            .then(url => setImageUrl(url))
+            .catch(err => console.error("Error loading image preview:", err))
+        }
+}, [post?.featuredImage])
+
+
 
     const DefaultImage = async()=>{
         const img = await fetch('/images/default.jpg')
@@ -37,7 +48,7 @@ function Postform({post}) {
             if(post){
                 // update post
                 const file =  data.image[0] ? await fileService.uploadFile(data.image?.[0]) : post.featuredImage
-                if(file){
+                if(file&&data.image?.[0]){
                     await fileService.deleteFile(post.featuredImage)
                 }
                 const dpPost = await postService.updatePost(post.id,{
@@ -53,7 +64,7 @@ function Postform({post}) {
                         content: dpPost.content,
                         area: dpPost.area.trim().toLowerCase(),
                         status : dpPost.status,
-                        featuredImage: dpPost.featuredImage,
+                        featuredImage:  dpPost.featuredImage,
                     }))
                     navigate(`/post/${dpPost.$id}`)
                 }
@@ -133,13 +144,13 @@ return (
             label="Area"
             name="area"
             required={true}
-            className="w-full mb-4"
+            className="w-full mb-4" 
             {...register('area')}
             />
             {
                 post &&(
                     <div className='w-full mb-4 '>
-                    <img src={fileService.getFilePreview(post.featuredImage)} alt={post.title} className='max-h-48 object-cover'/>
+                    <img src={imageUrl} alt={post.title} className='max-h-48 object-cover'/>
                     </div>
                 )
             }
